@@ -12,6 +12,11 @@ strindex() {
   [[ "$x" = "$1" ]] && echo -1 || echo "${#x}"
 }
 
+sendmail() {
+  # Arguments: recipient address, subject, message, sender address
+  /usr/bin/php -r "mail('$1','$2','$3','$4');"
+}
+
 # Get today's date
 heute=$(date +%d.%m.%Y)
 
@@ -30,7 +35,7 @@ while [ $done = 0 ]; do
     # There is a new picdump, send mail notification
     subject="Picdump"
     msg="The latest picdump is online at $url_letzter_dump"
-    /usr/bin/php -r "mail('$toaddress','$subject','$msg','$fromaddress');"
+    sendmail "$toaddress" "$subject" "$msg" "$fromaddress"
     done=1
   else
     # What time is it?
@@ -39,7 +44,7 @@ while [ $done = 0 ]; do
       # We stop this script at 18:00 at the latest and send out a mail that there was no picdump today.
       subject="No Picdump"
       msg="It is now after 18:00 and the picdump notifier is shutting down. It seems there was no new picdump today."
-      /usr/bin/php -r "mail('$toaddress','$subject','$msg','$fromaddress');"
+      sendmail "$toaddress" "$subject" "$msg" "$fromaddress"
       done=1
     else
       # The new picdump is not available yet, re-check in 30 seconds.
