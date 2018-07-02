@@ -37,7 +37,7 @@ while [ $done = 0 ]; do
     hour=$(date +%H)
     if [ "$hour" -ge "18" ]; then
       # We stop this script at 18:00 at the latest and send out a mail that there was no picdump today.
-      subject="Picdump"
+      subject="No Picdump"
       msg="It is now after 18:00 and the picdump notifier is shutting down. It seems there was no new picdump today."
       /usr/bin/php -r "mail('$toaddress','$subject','$msg','$fromaddress');"
       done=1
