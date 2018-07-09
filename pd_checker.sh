@@ -1,10 +1,12 @@
 #!/bin/bash
 
+workingdirectory="/var/services/homes/oliver/Scripts/"
+
 # Get the mail recipients for the picdump notifier
-source /var/services/homes/oliver/Scripts/picdump.conf
+source "$workingdirectory"picdump.conf
 
 # Create log file if it doesn't exist yet
-logfile="/var/services/homes/oliver/Scripts/pdchecker.log";
+logfile="$workingdirectory""pdchecker.log";
 touch $logfile
 
 # ###############################################################################
