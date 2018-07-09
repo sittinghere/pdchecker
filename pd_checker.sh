@@ -21,6 +21,11 @@ sendmail() {
   /usr/bin/php -r "mail('$1','$2','$3','$4');"
 }
 
+logger(){
+  DATETIME=$(date +%Y%m%d-%H:%M:%S)
+  echo "PDChecker <$$> $DATETIME: $1" >> $logfile
+}
+
 # Get today's date
 heute=$(date +%d.%m.%Y)
 
