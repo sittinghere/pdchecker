@@ -7,6 +7,10 @@ source /var/services/homes/oliver/Scripts/picdump.conf
 logfile="/var/services/homes/oliver/Scripts/pdchecker.log";
 touch $logfile
 
+# ###############################################################################
+# Functions
+# ###############################################################################
+
 strindex() {
   # Function with two arguments:
   # 1) A string
@@ -25,6 +29,10 @@ logger(){
   DATETIME=$(date +%Y%m%d-%H:%M:%S)
   echo "PDChecker <$$> $DATETIME: $1" >> $logfile
 }
+
+# ###############################################################################
+# Beginning of the script
+# ###############################################################################
 
 # Get today's date
 heute=$(date +%d.%m.%Y)
