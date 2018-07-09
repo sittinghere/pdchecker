@@ -3,6 +3,10 @@
 # Get the mail recipients for the picdump notifier
 source /var/services/homes/oliver/Scripts/picdump.conf
 
+# Create log file if it doesn't exist yet
+logfile="/var/services/homes/oliver/Scripts/pdchecker.log";
+touch $logfile
+
 strindex() {
   # Function with two arguments:
   # 1) A string
