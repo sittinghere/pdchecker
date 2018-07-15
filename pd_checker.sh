@@ -1,7 +1,17 @@
 #!/bin/bash
 
+workingdirectory="/var/services/homes/oliver/Scripts/"
+
 # Get the mail recipients for the picdump notifier
-source /var/services/homes/oliver/Scripts/picdump.conf
+source "$workingdirectory""/picdump.conf"
+
+# Create log file if it doesn't exist yet
+logfile="$workingdirectory""/pd_checker.log";
+touch $logfile
+
+# ###############################################################################
+# Functions
+# ###############################################################################
 
 strindex() {
   # Function with two arguments:
@@ -25,6 +35,17 @@ sendmaillist() {
   done
 }
 
+logger(){
+  DATETIME=$(date +%Y%m%d-%H:%M:%S)
+  echo "PDChecker <$$> $DATETIME: $1" >> $logfile
+}
+
+# ###############################################################################
+# Beginning of the script
+# ###############################################################################
+
+logger "Start"
+
 # Get today's date
 heute=$(date +%d.%m.%Y)
 
@@ -32,7 +53,9 @@ done=0
 
 while [ $done = 0 ]; do
   # Get date and URL of latest picdump
+  logger "Checking bildschirmarbeiter.com..."
   page=$(curl --silent http://www.bildschirmarbeiter.com/plugs/category/picdumps/)
+  logger "Check completed."
   searchstring="<p>Bildschirmarbeiter - Picdump vom "
   index=$(strindex "$page" "$searchstring")
   letzter_dump=${page:$index+36:10}
@@ -40,16 +63,20 @@ while [ $done = 0 ]; do
   
   # Check if the latest picdump is from today
   if [[ "$letzter_dump" = "$heute" ]]; then
-    # There is a new picdump, send mail notifications to all recipients individually
+    # There is a new picdump, send mail notification
+    logger "Picdump is available."
     subject="Picdump"
     msg="The latest picdump is online at $url_letzter_dump"
+    logger "Sending mail to recipients"
     sendmaillist "$subject" "$msg" "$fromaddress"
     done=1
   else
+    logger "Picdump not available yet, re-checking in 30 seconds."
     # What time is it?
     hour=$(date +%H)
     if [ "$hour" -ge "18" ]; then
       # We stop this script at 18:00 at the latest and send out a mail that there was no picdump today.
+      logger "Cutoff time reached, no picdump available today."
       subject="No Picdump"
       msg="It is now after 18:00 and the picdump notifier is shutting down. It seems there was no new picdump today."
       sendmail "$toaddress" "$subject" "$msg" "$fromaddress"
@@ -60,3 +87,5 @@ while [ $done = 0 ]; do
     fi
   fi
 done
+
+logger "End"
