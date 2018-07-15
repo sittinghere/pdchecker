@@ -27,6 +27,14 @@ sendmail() {
   /usr/bin/php -r "mail('$1','$2','$3','$4');"
 }
 
+sendmaillist() {
+  # Send mails to each of the recipients in the list specified in the conf file
+  # Arguments: subject, message, sender address
+  for address in "${toaddress[@]}"; do
+    $(sendmail "$address" "$1" "$2" "$3")
+  done
+}
+
 logger(){
   DATETIME=$(date +%Y%m%d-%H:%M:%S)
   echo "PDChecker <$$> $DATETIME: $1" >> $logfile
@@ -59,8 +67,8 @@ while [ $done = 0 ]; do
     logger "Picdump is available."
     subject="Picdump"
     msg="The latest picdump is online at $url_letzter_dump"
-    logger "Sending mail to $toaddress"
-    sendmail "$toaddress" "$subject" "$msg" "$fromaddress"
+    logger "Sending mail to recipients"
+    sendmaillist "$subject" "$msg" "$fromaddress"
     done=1
   else
     logger "Picdump not available yet, re-checking in 30 seconds."
