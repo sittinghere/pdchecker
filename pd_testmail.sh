@@ -11,7 +11,7 @@ sendmaillist() {
   # Send mails to each of the recipients in the list specified in the conf file
   # Arguments: subject, message, sender address
   for address in "${toaddress[@]}"; do
-    sendmail $address $1 $2 $3
+    $(sendmail "$address" "$1" "$2" "$3")
   done
 }
 
