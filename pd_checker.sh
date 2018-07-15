@@ -79,13 +79,5 @@ while [ $done = 0 ]; do
     fi
   fi
 done
-      sendmail "$toaddress" "$subject" "$msg" "$fromaddress"
-      done=1
-    else
-      # The new picdump is not available yet, re-check in 30 seconds.
-      sleep 30
-    fi
-  fi
-done
 
 logger "End"
