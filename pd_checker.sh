@@ -17,6 +17,14 @@ sendmail() {
   /usr/bin/php -r "mail('$1','$2','$3','$4');"
 }
 
+sendmaillist() {
+  # Send mails to each of the recipients in the list specified in the conf file
+  # Arguments: subject, message, sender address
+  for address in "${toaddress[@]}"; do
+    $(sendmail "$address" "$1" "$2" "$3")
+  done
+}
+
 # Get today's date
 heute=$(date +%d.%m.%Y)
 
@@ -32,10 +40,10 @@ while [ $done = 0 ]; do
   
   # Check if the latest picdump is from today
   if [[ "$letzter_dump" = "$heute" ]]; then
-    # There is a new picdump, send mail notification
+    # There is a new picdump, send mail notifications to all recipients individually
     subject="Picdump"
     msg="The latest picdump is online at $url_letzter_dump"
-    sendmail "$toaddress" "$subject" "$msg" "$fromaddress"
+    sendmaillist "$subject" "$msg" "$fromaddress"
     done=1
   else
     # What time is it?
