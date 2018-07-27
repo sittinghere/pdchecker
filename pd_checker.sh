@@ -56,9 +56,23 @@ while [ $done = 0 ]; do
   logger "Checking bildschirmarbeiter.com..."
   page=$(curl --silent http://www.bildschirmarbeiter.com/plugs/category/picdumps/)
   logger "Check completed."
-  searchstring="<p>Bildschirmarbeiter - Picdump vom "
-  index=$(strindex "$page" "$searchstring")
-  letzter_dump=${page:$index+36:10}
+  
+  regex='[0-9]{2}\.[0-9]{2}\.[0-9]{4}'
+  matches=()
+  for word in "$page"; do
+    [[ $word =~ $regex ]]
+    if [[ ${BASH_REMATCH[0]} ]]
+    then
+      matches+=("${BASH_REMATCH[0]}")
+    fi
+  done
+
+  for match in "$matches"; do
+    if [[ "$match" = "$heute" ]]; then
+      letzter_dump="$heute"
+    fi
+  done
+  
   url_letzter_dump="http://www.bildschirmarbeiter.com/pic/bildschirmarbeiter_-_picdump_"$letzter_dump
   
   # Check if the latest picdump is from today
