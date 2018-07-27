@@ -84,7 +84,7 @@ while [ $done = 0 ]; do
       logger "Cutoff time reached, no picdump available today."
       subject="No Picdump"
       msg="It is now after 18:00 and the picdump notifier is shutting down. It seems there was no new picdump today."
-      sendmail "$toaddress" "$subject" "$msg" "$fromaddress"
+      sendmaillist "$subject" "$msg" "$fromaddress"
       done=1
     else
       # The new picdump is not available yet, re-check in 30 seconds.
