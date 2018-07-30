@@ -26,7 +26,7 @@ sendmaillist() {
   done
 }
 
-logger(){
+logger() {
   DATETIME=$(date +%Y%m%d-%H:%M:%S)
   echo "PDChecker <$$> $DATETIME: $1" >> $logfile
 }
