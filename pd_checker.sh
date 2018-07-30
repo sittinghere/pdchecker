@@ -46,7 +46,7 @@ while [[ $done = 0 ]]; do
   # Get date and URL of latest picdump
   logger "Checking bildschirmarbeiter.com..."
   page=$(curl --silent http://www.bildschirmarbeiter.com/plugs/category/picdumps/)
-  if [["$page" = "" ]]; then
+  if [[ "$page" = "" ]]; then
     logger "bildschirmarbeiter.com not reached, re-trying in 30 seconds."
     sleep 30
   else
