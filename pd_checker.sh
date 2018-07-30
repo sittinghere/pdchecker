@@ -42,7 +42,7 @@ heute=$(date +%d.%m.%Y)
 
 done=0
 
-while [ $done = 0 ]; do
+while [[ $done = 0 ]]; do
   # Get date and URL of latest picdump
   logger "Checking bildschirmarbeiter.com..."
   page=$(curl --silent http://www.bildschirmarbeiter.com/plugs/category/picdumps/)
@@ -82,7 +82,7 @@ while [ $done = 0 ]; do
       logger "Picdump not available yet, re-checking in 30 seconds."
       # What time is it?
       hour=$(date +%H)
-      if [ "$hour" -ge "18" ]; then
+      if [[ "$hour" -ge "18" ]]; then
         # We stop this script at 18:00 at the latest and send out a mail that there was no picdump today.
         logger "Cutoff time reached, no picdump available today."
         subject="No Picdump"
