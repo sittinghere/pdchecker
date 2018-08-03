@@ -55,8 +55,7 @@ while [[ $done = 0 ]]; do
     matches=()
     for word in "$page"; do
       [[ $word =~ $regex ]]
-      if [[ ${BASH_REMATCH[0]} ]]
-      then
+      if [[ ${BASH_REMATCH[0]} ]]; then
         matches+=("${BASH_REMATCH[0]}")
       fi
     done
