@@ -78,7 +78,6 @@ while [[ $done = 0 ]]; do
       sendmaillist "$subject" "$msg" "$fromaddress"
       done=1
     else
-      logger "Picdump not available yet, re-checking in 30 seconds."
       # What time is it?
       hour=$(date +%H)
       if [[ "$hour" -ge "18" ]]; then
@@ -90,6 +89,7 @@ while [[ $done = 0 ]]; do
         done=1
       else
         # The new picdump is not available yet, re-check in 30 seconds.
+        logger "Picdump not available yet, re-checking in 30 seconds."
         sleep 30
       fi
     fi
