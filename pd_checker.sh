@@ -10,18 +10,6 @@ logfile="$workingdirectory""/pd_checker.log";
 touch $logfile
 
 # ###############################################################################
-# Variables
-# ###############################################################################
-
-# Today's date
-heute=$(date +%d.%m.%Y)
-
-done=0
-
-count_recheck_message=0
-count_limit=10
-
-# ###############################################################################
 # Functions
 # ###############################################################################
 
@@ -49,6 +37,11 @@ logger() {
 
 logger "Start"
 
+# Get today's date
+heute=$(date +%d.%m.%Y)
+
+done=0
+
 while [[ $done = 0 ]]; do
   # Get date and URL of latest picdump
   logger "Checking bildschirmarbeiter.com..."
@@ -66,15 +59,15 @@ while [[ $done = 0 ]]; do
         matches+=("${BASH_REMATCH[0]}")
       fi
     done
-  
+
     for match in "$matches"; do
       if [[ "$match" = "$heute" ]]; then
         letzter_dump="$heute"
       fi
     done
-    
+
     url_letzter_dump="http://www.bildschirmarbeiter.com/pic/bildschirmarbeiter_-_picdump_"$letzter_dump
-    
+
     # Check if the latest picdump is from today
     if [[ "$letzter_dump" = "$heute" ]]; then
       # There is a new picdump, send mail notification
@@ -96,10 +89,7 @@ while [[ $done = 0 ]]; do
         done=1
       else
         # The new picdump is not available yet, re-check in 30 seconds.
-        if [[ $(("$count_recheck_message" % "$count_limit")) == 0 ]]; then
-          logger "Picdump not available yet, re-checking in 30 seconds. This message is not logged for every re-check."
-        fi
-        count_recheck_message=$(("$count_recheck_message" + 1))
+        logger "Picdump not available yet, re-checking in 30 seconds."
         sleep 30
       fi
     fi
