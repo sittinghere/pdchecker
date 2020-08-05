@@ -51,7 +51,7 @@ while [[ $done = 0 ]]; do
     sleep 30
   else
     logger "Check completed."
-    regex='[0-9]{2}\.[0-9]{2}\.[0-9]{4}'
+    regex='KW[0-9][0-9]'
     matches=()
     for word in "$page"; do
       [[ $word =~ $regex ]]
