@@ -37,8 +37,9 @@ logger() {
 
 logger "Start"
 
-# Get today's date
-heute=$(date +%d.%m.%Y)
+# Get today's date (%V option for ISO week)
+heute="KW"$(date +%V)
+aktuellesjahr=$(date +%Y)
 
 done=0
 
@@ -52,21 +53,14 @@ while [[ $done = 0 ]]; do
   else
     logger "Check completed."
     regex='KW[0-9][0-9]'
-    matches=()
-    for word in "$page"; do
-      [[ $word =~ $regex ]]
-      if [[ ${BASH_REMATCH[0]} ]]; then
-        matches+=("${BASH_REMATCH[0]}")
-      fi
-    done
-
-    for match in "$matches"; do
+    matches=($(echo "$page" | grep -o -s "$regex"))
+    for match in "${matches[@]}"; do
       if [[ "$match" = "$heute" ]]; then
         letzter_dump="$heute"
       fi
     done
 
-    url_letzter_dump="http://www.bildschirmarbeiter.com/pic/bildschirmarbeiter_-_picdump_"$letzter_dump
+    url_letzter_dump="http://www.bildschirmarbeiter.com/pic/bildschirmarbeiter_-_picdump_"$letzter_dump"_"$aktuellesjahr
 
     # Check if the latest picdump is from today
     if [[ "$letzter_dump" = "$heute" ]]; then
