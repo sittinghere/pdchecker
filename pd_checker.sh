@@ -7,7 +7,23 @@
 # einen Kalender bedient. Mit Beginn des Jahres 2021 ist er mit seinen Kalen-
 # derwochen immer eine Woche zu weit.
 # Insofern: Gute Entscheidung von ihm, im vergangenen August vom genauen
-# Tagesdatum zur Kalenderwoche überzugehen.
+# Tagesdatum zur Kalenderwoche Ã¼berzugehen.
+#
+# Darum gibt es jetzt hier einen Parameter use_2021_idiot_mode, der dieses
+# Problem behebt. Zum Jahreswechsel 2022 - oder falls der Kerl es irgendwann
+# dieses Jahr doch noch schnallt - muss der Parameter wieder
+# ausgeschaltet werden.
+# ###############################################################################
+use_2021_idiot_mode=0
+
+# ###############################################################################
+# "2021 idiot mode"
+#
+# Der Betreiber von bildschirmarbeiter.com scheint nicht zu wissen, wie man
+# einen Kalender bedient. Mit Beginn des Jahres 2021 ist er mit seinen Kalen-
+# derwochen immer eine Woche zu weit.
+# Insofern: Gute Entscheidung von ihm, im vergangenen August vom genauen
+# Tagesdatum zur Kalenderwoche ï¿½berzugehen.
 #
 # Darum gibt es jetzt hier einen Parameter use_2021_idiot_mode, der dieses
 # Problem behebt. Zum Jahreswechsel 2022 - oder falls der Kerl es irgendwann
