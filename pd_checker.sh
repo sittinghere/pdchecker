@@ -16,22 +16,6 @@
 # ###############################################################################
 use_2021_idiot_mode=0
 
-# ###############################################################################
-# "2021 idiot mode"
-#
-# Der Betreiber von bildschirmarbeiter.com scheint nicht zu wissen, wie man
-# einen Kalender bedient. Mit Beginn des Jahres 2021 ist er mit seinen Kalen-
-# derwochen immer eine Woche zu weit.
-# Insofern: Gute Entscheidung von ihm, im vergangenen August vom genauen
-# Tagesdatum zur Kalenderwoche �berzugehen.
-#
-# Darum gibt es jetzt hier einen Parameter use_2021_idiot_mode, der dieses
-# Problem behebt. Zum Jahreswechsel 2022 - oder falls der Kerl es irgendwann
-# dieses Jahr doch noch schnallt - muss der Parameter wieder
-# ausgeschaltet werden.
-# ###############################################################################
-use_2021_idiot_mode=1
-
 workingdirectory="/var/services/homes/oliver/Scripts/"
 
 # Get the mail recipients for the picdump notifier
@@ -71,10 +55,10 @@ logger "Start"
 
 # Get today's date (%V option for ISO week)
 if [[ $use_2021_idiot_mode = 1 ]]; then
-  heute="KW"$(date -d 'next week' +%V)
+  heute="kw_"$(date -d 'next week' +%V)
   logger "++++++++++++++++++ CAUTION: 2021 IDIOT MODE ACTIVE ++++++++++++++++++"
 else
-  heute="KW"$(date +%V)
+  heute="kw_"$(date +%V)
 fi
 aktuellesjahr=$(date +%Y)
 
@@ -89,9 +73,10 @@ while [[ $done = 0 ]]; do
     sleep 30
   else
     logger "Check completed."
-    regex='KW[0-9][0-9]'
+    regex='kw[_][0-9][0-9]'
     matches=($(echo "$page" | grep -o -s "$regex"))
-    for match in "${matches[@]}"; do
+    for ((i = 0; i < ${#matches[@]}; i++)); do
+      match="${matches[$i]}"
       if [[ "$match" = "$heute" ]]; then
         letzter_dump="$heute"
       fi
